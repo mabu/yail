@@ -132,33 +132,33 @@ func (i *interpreter) run() interface{} {
 			case int64:
 				switch s2 := i.pop().(type) {
 				case int64:
-					i.push(s1 + s2)
+					i.push(s2 + s1)
 				case float64:
-					i.push(float64(s1) + s2)
+					i.push(s2 + float64(s1))
 				case string:
-					i.push(itoa(s1) + s2)
+					i.push(s2 + itoa(s1))
 				default:
 					runtimeErr("opSum failed: could not add int and unknown")
 				}
 			case float64:
 				switch s2 := i.pop().(type) {
 				case int64:
-					i.push(s1 + float64(s2))
+					i.push(float64(s2) + s1)
 				case float64:
-					i.push(s1 + s2)
+					i.push(s2 + s1)
 				case string:
-					i.push(ftoa(s1) + s2)
+					i.push(s2 + ftoa(s1))
 				default:
 					runtimeErr("opSum failed: could not add float and unknown")
 				}
 			case string:
 				switch s2 := i.pop().(type) {
 				case int64:
-					i.push(s1 + itoa(s2))
+					i.push(itoa(s2) + s1)
 				case float64:
-					i.push(s1 + ftoa(s2))
+					i.push(ftoa(s2) + s1)
 				case string:
-					i.push(s1 + s2)
+					i.push(s2 + s1)
 				default:
 					runtimeErr("opSum failed: could not add string and unknown")
 				}
