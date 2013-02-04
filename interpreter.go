@@ -21,9 +21,11 @@ type interpreter struct {
 	parent *interpreter
 }
 
-func Interpret(source string, input io.Reader, output io.Writer) {
+// Interprets a program given its source code.
+// Use r for standard intput and w for standard output operations.
+func Interpret(code string, r io.Reader, w io.Writer) {
 	rand.Seed(time.Now().UTC().UnixNano())
-	i := newInterpreter(parse(source), input, output)
+	i := newInterpreter(parse(code), r, w)
 	i.run()
 }
 
@@ -239,18 +241,18 @@ func ftoa(f float64) string {
 	return strconv.FormatFloat(f, 'f', -1, 64)
 }
 
+func (i *interpreter) read(val interface{}, format string) {
+	if n, err := fmt.Fscanf(i.stdin, format, val); n == 0 || err != nil {
+		runtimeErr("read failed: " + err.Error())
+	}
+}
+
 type intF func(a, b int64) int64
 type floatF func(a, b float64) float64
 type intFbool func(a, b int64) bool
 type floatFbool func(a, b float64) bool
 type boolF func(a, b bool) bool
 type stringFbool func(a, b string) bool
-
-func (i *interpreter) read(val interface{}, format string) {
-	if n, err := fmt.Fscanf(i.stdin, format, val); n == 0 || err != nil {
-		runtimeErr("read failed: " + err.Error())
-	}
-}
 
 func (i *interpreter) numberOp(name string, fi intF, ff floatF) {
 	switch s1 := i.pop().(type) {
