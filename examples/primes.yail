@@ -1,0 +1,18 @@
+@print("I'm eager to generate some prime numbers, just gimme the limit! ")
+MAX = @int
+for i = 2; i <= MAX; i = i + 1 {
+	isPrime[i] = true
+}
+numPrimes = 0
+for i = 2; i <= MAX; i = i + 1 {
+	if isPrime[i] {
+		primes[numPrimes] = i
+		numPrimes = numPrimes + 1
+		for j = i + i; j <= MAX; j = j + i {
+			isPrime[j] = false
+		}
+	}
+}
+for i = 0; i < numPrimes; i = i + 1 {
+	@println(primes[i])
+}

@@ -1,0 +1,13 @@
+secret = @rnd % 100 + 1
+guess = 0
+while secret != guess {
+	@print("Guess a number between 1 and 100: ")
+	guess = @int
+	if guess < secret {
+		@println("Wrong, the right number is greater than " + guess + "!")
+	}
+	if guess > secret {
+		@println("Wrong, the right number is smaller than " + guess + "!")
+	}
+}
+@println("Congratulations, you guessed!")
